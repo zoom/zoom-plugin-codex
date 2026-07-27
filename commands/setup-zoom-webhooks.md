@@ -12,6 +12,7 @@ Use this command when the integration receives Zoom events over HTTP and needs a
 2. Identify the event types and the Zoom app or account scope that owns the subscription.
 3. Confirm the public endpoint shape, validation requirements, and webhook secret env var names without printing secrets.
 4. If the repo actually needs low-latency persistent delivery instead of HTTP callbacks, say so before proceeding and compare against WebSockets.
+5. Select or validate the user-managed General, admin-managed General, S2S, or Build Platform event owner with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

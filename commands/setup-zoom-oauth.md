@@ -13,6 +13,7 @@ Use this command when the goal is to wire or correct a Zoom OAuth flow in applic
 3. Confirm the expected app model and grant path from the current implementation or user intent.
 4. Check for required values without printing secrets: client ID, redirect URI, scope list, callback handler, and token persistence location.
 5. If the repo does not make the integration goal clear, ask one direct question before editing auth code.
+6. Confirm the Marketplace app or manifest already matches the actor and scope class; otherwise run `/setup-zoom-marketplace-app` first.
 
 ## Plan
 
@@ -26,11 +27,12 @@ Before making changes:
 ## Commands
 
 1. Search for existing Zoom auth usage with `rg` over `ZOOM_`, `oauth`, `redirect_uri`, `client_id`, and known Zoom endpoints.
-2. Standardize the authorize and token exchange path for the chosen app model.
-3. Add or correct env var names, callback routing, scope configuration, and token exchange code.
-4. Treat refresh tokens as single-use values when implementing refresh logic.
-5. Keep secrets out of the output and avoid logging access or refresh tokens.
-6. If the user only asked for setup guidance, limit the change to the minimum required configuration and notes.
+2. Create or validate the owning app through `/setup-zoom-marketplace-app` when app configuration is missing or inconsistent.
+3. Standardize the authorize and token exchange path for the chosen app model.
+4. Add or correct env var names, callback routing, scope configuration, and token exchange code.
+5. Treat refresh tokens as single-use values when implementing refresh logic.
+6. Keep secrets out of the output and avoid logging access or refresh tokens.
+7. If the user only asked for setup guidance, limit the change to the minimum required configuration and notes.
 
 ## Verification
 

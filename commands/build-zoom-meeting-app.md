@@ -12,6 +12,7 @@ Use this command when the repo needs to embed or launch real Zoom meetings with 
 2. Confirm the requested experience is a real Zoom meeting and not a custom video experience that belongs on Video SDK.
 3. Identify the target platform: web, mobile, desktop, or multi-platform.
 4. Check whether the codebase already has the required server-side token or signature path without printing secrets.
+5. Create or validate the dedicated Meeting SDK app with `/setup-zoom-marketplace-app` before generating signatures.
 
 ## Plan
 

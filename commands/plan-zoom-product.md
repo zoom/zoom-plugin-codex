@@ -12,6 +12,7 @@ Use this command when the repo or product idea needs the right Zoom surface sele
 2. Capture the user goal in concrete terms: automation, embedded meetings, custom video, in-client app behavior, event delivery, live media, or AI tooling.
 3. Identify hard constraints that affect product choice: target platform, required UX, hosting model, latency, account model, and whether the app runs inside or outside Zoom.
 4. If the repo already uses one Zoom surface, note it before recommending a different one.
+5. Identify the Marketplace or Build Platform app model that would own credentials, scopes, features, and events for each viable surface.
 
 ## Plan
 
@@ -27,8 +28,9 @@ Before recommending anything:
 1. Inventory existing Zoom-related code with `rg` over known Zoom SDK names, API clients, and webhook handlers.
 2. Classify the problem into the smallest correct Zoom surface: REST API, Webhooks, WebSockets, Meeting SDK, Video SDK, Zoom Apps SDK, RTMS, Phone, Contact Center, Virtual Agent, or a hybrid.
 3. Recommend one primary surface and only the minimum supporting pieces required.
-4. Explain why adjacent alternatives are worse for this exact case.
-5. Keep the answer tied to the current repo and delivery goal rather than giving a generic product catalog.
+4. Select the required app model and route app creation or manifest validation through `/setup-zoom-marketplace-app`.
+5. Explain why adjacent alternatives are worse for this exact case.
+6. Keep the answer tied to the current repo and delivery goal rather than giving a generic product catalog.
 
 ## Verification
 

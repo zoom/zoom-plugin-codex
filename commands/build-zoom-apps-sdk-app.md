@@ -12,6 +12,7 @@ Use this command when the repo should build an app that runs inside the Zoom cli
 2. Confirm the requirement is truly an in-client Zoom app and not a Meeting SDK or Video SDK workflow.
 3. Identify the required running context: meeting, webinar, main client, phone, collaborate mode, immersive mode, camera mode, or another supported context.
 4. Check for required Marketplace app settings, allowed domains, redirect URIs, and in-client OAuth requirements without printing secrets.
+5. Validate the General App against the Zoom App template with `/setup-zoom-marketplace-app` before SDK implementation.
 
 ## Plan
 

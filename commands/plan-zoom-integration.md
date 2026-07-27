@@ -12,6 +12,7 @@ Use this command when the right Zoom surface is mostly clear and the next step i
 2. Capture the target user flow, success criteria, and the concrete business outcome.
 3. Identify the owning Zoom surface or surfaces and any external systems the integration must connect to.
 4. Note hard constraints early: platform, OAuth app type, webhook reachability, SDK environment limits, or marketplace review assumptions.
+5. Select the Marketplace or Build Platform app model and scenario template before finalizing auth, event, or SDK-signature work.
 
 ## Plan
 
@@ -26,10 +27,11 @@ Before producing the build plan:
 
 1. Inventory the current repo and identify which parts can be reused versus what must be added.
 2. Define the integration architecture: frontend, backend, auth owner, event flow, and any live media components.
-3. Define the required Zoom app type, scopes, callback paths, and token lifecycle expectations.
-4. Break the implementation into phases: smallest working path first, then reliability, observability, and polish.
-5. Call out the highest-risk dependencies early instead of burying them under tasks.
-6. End with the smallest deliverable that proves the architecture works.
+3. Define the required Zoom app type, template, scopes, callback paths, products, events, and token lifecycle expectations.
+4. Route app creation and manifest validation through `/setup-zoom-marketplace-app`.
+5. Break the implementation into phases: app registration, smallest working path, reliability, observability, and polish.
+6. Call out the highest-risk dependencies early instead of burying them under tasks.
+7. End with the smallest deliverable that proves the architecture works.
 
 ## Verification
 

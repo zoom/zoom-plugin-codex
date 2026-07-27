@@ -12,6 +12,7 @@ Use this command for a broad diagnostic pass when a repo already contains Zoom i
 2. Identify which Zoom surfaces are in play: REST API, Meeting SDK, Video SDK, Webhooks, WebSockets, Phone, or Contact Center.
 3. Confirm whether the user wants a read-only audit or is also authorizing fixes in the same pass.
 4. Check for dirty working tree and call it out if changes could complicate attribution.
+5. Inventory the owning Marketplace or Build Platform apps, manifests, scope classes, features, events, and credential models without exposing secrets.
 
 ## Plan
 
@@ -24,7 +25,7 @@ Before doing the audit:
 ## Commands
 
 1. Inventory the active Zoom surfaces and determine whether the product choice matches the use case.
-2. Review auth handling for app model, scopes, secret storage, redirect handling, and token lifecycle.
+2. Review app registration and auth handling for app model, manifest shape, scope class, products/features, events, secret storage, redirect handling, and token lifecycle.
 3. Review eventing for webhook signature handling, retries, or WebSocket suitability.
 4. Review SDK usage for version drift, wrong surface choice, or incorrect server-side dependencies.
 5. Review integration boundaries for unnecessary coupling, unclear ownership, and avoidable auth complexity.

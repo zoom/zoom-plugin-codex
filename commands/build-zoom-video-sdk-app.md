@@ -12,6 +12,7 @@ Use this command when the repo needs a custom video experience rather than an ac
 2. Confirm the use case is a custom session workflow and not a standard Zoom meeting flow.
 3. Identify the target platform and expected media features.
 4. Check whether the required server-side auth or session token path already exists without printing secrets.
+5. Create or validate the Video SDK Marketplace app and credential shape with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

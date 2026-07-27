@@ -56,6 +56,7 @@ Use the bundled slash commands when you want a deterministic flow rather than op
 |---|---|
 | [`/plan-zoom-product`](commands/plan-zoom-product.md) | Choose the right Zoom product surface for a use case and explain the tradeoffs clearly |
 | [`/plan-zoom-integration`](commands/plan-zoom-integration.md) | Turn a Zoom product idea into a practical build plan with auth, architecture, and milestones |
+| [`/setup-zoom-marketplace-app`](commands/setup-zoom-marketplace-app.md) | Select, create, or validate the app model, manifest, scopes, events, and credentials for a Zoom integration |
 | [`/debug-zoom`](commands/debug-zoom.md) | Triage a broken Zoom integration when the failing layer is not yet obvious |
 | [`/setup-zoom-oauth`](commands/setup-zoom-oauth.md) | Inspect the repo, choose the right Zoom OAuth flow, and wire the auth path cleanly |
 | [`/setup-zoom-webhooks`](commands/setup-zoom-webhooks.md) | Implement or correct a Zoom webhook receiver with validation, signature checks, and reliable delivery handling |
@@ -103,6 +104,7 @@ Codex can invoke skills implicitly from task descriptions, or explicitly by ment
 | Skill | Description |
 |---|---|
 | [`start`](skills/start/SKILL.md) | Start with a Zoom app idea and route to the right product and build path |
+| [`setup-zoom-marketplace-app`](skills/setup-zoom-marketplace-app/SKILL.md) | Select or validate the Marketplace app and manifest before product implementation |
 | [`setup-zoom-oauth`](skills/setup-zoom-oauth/SKILL.md) | Choose the auth model, scopes, and redirect flow for a Zoom app |
 | [`build-zoom-meeting-app`](skills/build-zoom-meeting-app/SKILL.md) | Build an embedded or managed Zoom meeting flow |
 | [`build-zoom-bot`](skills/build-zoom-bot/SKILL.md) | Build bots, recorders, and real-time meeting processors |

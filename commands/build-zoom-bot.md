@@ -12,6 +12,7 @@ Use this command when the repo needs to join meetings programmatically, capture 
 2. Identify whether the bot is joining meetings, consuming live media, processing recordings, or combining multiple paths.
 3. Confirm the execution environment and deployment model for the bot runtime.
 4. Check for required credentials, meeting join inputs, and media dependencies without printing secrets.
+5. Resolve the Marketplace app model for Meeting SDK, Meeting/Webinar RTMS, or Contact Center Voice RTMS with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

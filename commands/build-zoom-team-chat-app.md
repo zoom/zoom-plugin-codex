@@ -12,6 +12,7 @@ Use this command when the repo should send, receive, or automate Zoom Team Chat 
 2. Identify whether the workflow is user-scoped messaging, chatbot behavior, slash-command handling, or notifications.
 3. Confirm the runtime that will own incoming events and outgoing message calls.
 4. Check for the required auth and event configuration without printing secrets.
+5. Select the user, admin, S2S API, or chatbot template with `/setup-zoom-marketplace-app`; do not use S2S for chatbot subscriptions.
 
 ## Plan
 

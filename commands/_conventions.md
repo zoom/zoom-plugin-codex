@@ -11,6 +11,7 @@ Check prerequisites before doing any work:
 - Inspect the current repo for the relevant Zoom surface, framework, and existing integration code.
 - Confirm required local tools are available before relying on them.
 - Note missing credentials, env vars, callback routes, or endpoint URLs before attempting setup or debugging.
+- Resolve the owning Zoom Marketplace or Build Platform app before auth, API, SDK, webhook, WebSocket, or RTMS implementation. Use `/setup-zoom-marketplace-app` when app type, manifest, scopes, events, or credential shape is not already verified.
 - Flag dirty working tree or risky production-impacting changes when they matter to the requested workflow.
 
 Preflight failures should produce clear next actions. Do not silently skip them.

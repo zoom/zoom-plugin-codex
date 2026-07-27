@@ -10,7 +10,7 @@ Use this skill when the app runs inside the Zoom client. If the user only needs 
 ## Workflow
 
 1. Confirm the running context: meeting, webinar, main client, phone, collaborate mode, immersive mode, camera mode, or Layers API.
-2. Configure Marketplace app settings, allowed domains, redirect URIs, and in-client OAuth before implementing SDK calls.
+2. Create or validate the General App from the Zoom App template, including product surface, allowed-domain objects, redirect URIs, and scopes.
 3. Initialize `zoomSdk` and gate features by capability and running context.
 4. Design client communication and data flow: frontend SDK calls, backend REST calls, in-client OAuth tokens, and webhook handoff.
 5. Implement advanced client features only after the base app loads reliably: Layers API, breakout rooms, guest mode, collaborate mode, or ZMail.
@@ -19,6 +19,7 @@ Use this skill when the app runs inside the Zoom client. If the user only needs 
 ## References
 
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
+- Zoom App template: [../rest-api/assets/marketplace-apps/zoom-app.json](../rest-api/assets/marketplace-apps/zoom-app.json)
 - Architecture: [concepts/architecture.md](concepts/architecture.md)
 - Running contexts: [concepts/running-contexts.md](concepts/running-contexts.md)
 - Meeting SDK versus Zoom Apps: [concepts/meeting-sdk-vs-zoom-apps.md](concepts/meeting-sdk-vs-zoom-apps.md)

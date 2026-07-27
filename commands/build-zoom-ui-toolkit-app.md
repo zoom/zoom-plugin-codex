@@ -12,6 +12,7 @@ Use this command when the repo needs a prebuilt web UI for a Zoom Video SDK sess
 2. Confirm the requirement is a prebuilt Video SDK UI and not a real Zoom meeting flow.
 3. Identify the host framework and where the UI Toolkit should mount.
 4. Check whether the required Video SDK session auth path exists without printing secrets.
+5. Create or validate the Video SDK Marketplace app and credential shape with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

@@ -12,6 +12,7 @@ Use this command when the repo needs Zoom Phone APIs, embedded phone experiences
 2. Identify whether the workflow is Smart Embed, direct API usage, call automation, CRM integration, or another phone-specific path.
 3. Confirm the runtime and UI surface that will own the phone workflow.
 4. Check for the required auth and event configuration without printing secrets.
+5. Select or validate the General/S2S Phone app, scope class, and event subscriptions with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

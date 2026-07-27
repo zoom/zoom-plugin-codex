@@ -12,6 +12,7 @@ Use this command when the integration needs persistent Zoom event delivery inste
 2. Confirm WebSockets are justified by latency, delivery model, firewall constraints, or connection semantics.
 3. Identify the event types and app configuration required for the stream.
 4. Confirm the owning backend or service that will manage connect, heartbeat, reconnect, and shutdown behavior.
+5. Create or validate an admin-managed General App or S2S app and complete WebSocket delivery setup through `/setup-zoom-marketplace-app`.
 
 ## Plan
 

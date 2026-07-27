@@ -12,6 +12,7 @@ Use this command when the repo should build a server-side Zoom integration aroun
 2. Confirm Rivet is the intended abstraction and not just a generic backend integration that should stay with direct API and webhook code.
 3. Identify the required modules: app configuration, OAuth, API clients, webhook handlers, and business workflow handlers.
 4. Check whether the required environment variables and deployment model are already represented without printing secrets.
+5. Resolve each underlying module's Marketplace or Build Platform app through `/setup-zoom-marketplace-app`.
 
 ## Plan
 

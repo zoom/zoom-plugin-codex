@@ -12,6 +12,7 @@ Use this command when the repo needs to join, start, or embed real Zoom meetings
 2. Confirm the requirement is a real Zoom meeting and not a custom video session or an in-client Zoom app.
 3. Identify the target platform: web, Android, iOS, macOS, Windows, Electron, React Native, Unreal, or Linux bot.
 4. Check whether the required auth and meeting inputs exist without printing secrets: meeting number, password path, role, SDK auth material, and host start requirements.
+5. Create or validate the dedicated Meeting SDK app with `/setup-zoom-marketplace-app` before generating signatures.
 
 ## Plan
 

@@ -12,6 +12,7 @@ Use this command when the repo needs Zoom Contact Center web, mobile, or backend
 2. Identify the target platform and workflow: web embed, native wrapper, engagement handling, campaign flow, or backend orchestration.
 3. Confirm the owning runtime and UI surface.
 4. Check for the required auth, SDK, or endpoint configuration without printing secrets.
+5. Select or validate the General/S2S Contact Center app, product surface, scopes, and events with `/setup-zoom-marketplace-app`.
 
 ## Plan
 

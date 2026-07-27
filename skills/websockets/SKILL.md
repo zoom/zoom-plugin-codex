@@ -10,15 +10,17 @@ Use this skill when the integration needs persistent Zoom event delivery instead
 ## Workflow
 
 1. Confirm WebSockets are justified by latency, firewall, connection model, or deployment constraints.
-2. Configure the app and event subscriptions for the required event stream.
-3. Implement connection setup, authentication, heartbeat, reconnect, backoff, and shutdown handling.
-4. Normalize events into the same internal contract used by webhook handlers when both are supported.
-5. Add observability for connection state, reconnect count, event lag, and dropped messages.
-6. Debug by isolating token/auth problems, app subscription settings, network proxies, TLS interception, and reconnect loops.
+2. Create or verify an admin-managed General App or S2S app; WebSocket event delivery is account-level.
+3. Configure the app and event subscriptions for the required event stream, including the WebSocket delivery method under Features > Access.
+4. Implement connection setup, authentication, heartbeat, reconnect, backoff, and shutdown handling.
+5. Normalize events into the same internal contract used by webhook handlers when both are supported.
+6. Add observability for connection state, reconnect count, event lag, and dropped messages.
+7. Debug by isolating token/auth problems, app subscription settings, network proxies, TLS interception, and reconnect loops.
 
 ## References
 
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
+- Marketplace template selector: [../rest-api/references/marketplace-app-templates.md](../rest-api/references/marketplace-app-templates.md)
 - Connection: [references/connection.md](references/connection.md)
 - Events: [references/events.md](references/events.md)
 - Common issues: [troubleshooting/common-issues.md](troubleshooting/common-issues.md)

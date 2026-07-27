@@ -12,6 +12,7 @@ Use this command when the repo needs Zoom RTMS for live meeting or contact-cente
 2. Confirm the use case actually belongs on RTMS rather than a visible Meeting SDK bot or a post-meeting retrieval workflow.
 3. Identify the stream source: meeting media, transcript stream, contact-center voice stream, or another documented RTMS surface.
 4. Confirm the owning backend runtime, downstream pipeline, and required credentials without printing secrets.
+5. Select the correct RTMS app model and event template with `/setup-zoom-marketplace-app` before stream implementation.
 
 ## Plan
 

@@ -12,6 +12,7 @@ Use this command when the repo needs to embed or wrap Zoom Virtual Agent on web,
 2. Identify the target platform and Virtual Agent launch path.
 3. Confirm the lifecycle constraints for the host app and any required native bridge behavior.
 4. Check for the required configuration values without printing secrets.
+5. Run `/setup-zoom-marketplace-app` only for API/KB automation; web/mobile embeds use campaign keys and entry IDs instead.
 
 ## Plan
 

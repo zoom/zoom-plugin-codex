@@ -12,6 +12,7 @@ Use this command when the repo needs a browser co-browsing experience for suppor
 2. Confirm the workflow is truly browser co-browsing rather than Contact Center, Virtual Agent, or a general screen-sharing feature.
 3. Identify the role model: customer page, agent console, session initiation path, and handoff mechanism.
 4. Check whether required tokens, allowed origins, and privacy requirements are already represented without printing secrets.
+5. Confirm the owning Video SDK Marketplace app and credential shape with `/setup-zoom-marketplace-app`.
 
 ## Plan
 
