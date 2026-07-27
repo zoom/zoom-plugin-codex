@@ -19,7 +19,7 @@ Use this skill when the app runs inside the Zoom client. If the user only needs 
 ## References
 
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
-- Zoom App template: [../rest-api/assets/marketplace-apps/zoom-app.json](../rest-api/assets/marketplace-apps/zoom-app.json)
+- Zoom App template: [../rest-api/assets/marketplace-apps/marketplace-manifest-template-for-general-user-zoom-app.json](../rest-api/assets/marketplace-apps/marketplace-manifest-template-for-general-user-zoom-app.json)
 - Architecture: [concepts/architecture.md](concepts/architecture.md)
 - Running contexts: [concepts/running-contexts.md](concepts/running-contexts.md)
 - Meeting SDK versus Zoom Apps: [concepts/meeting-sdk-vs-zoom-apps.md](concepts/meeting-sdk-vs-zoom-apps.md)

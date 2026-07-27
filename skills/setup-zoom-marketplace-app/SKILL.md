@@ -1,6 +1,6 @@
 ---
 name: setup-zoom-marketplace-app
-description: Use when creating or validating a Zoom Marketplace app.
+description: Use when creating, updating, selecting, or validating a Zoom Marketplace app.
 ---
 
 # Setup Zoom Marketplace App
@@ -9,17 +9,41 @@ Use this skill before product implementation when the task needs app-model selec
 
 ## Workflow
 
-1. Identify the product scenario, actor, account ownership, and required app model.
-2. Select the narrowest JSON template from the Marketplace template selector.
-3. Replace sample values and reduce scopes to the exact operations required.
-4. Validate General App manifests and check both HTTP status and response `ok`.
-5. Create the app through the correct regular or account-scoped endpoint.
-6. Complete post-create event, WebSocket, RTMS, or feature setup that is not reliably encoded by the schema.
-7. Store secrets safely and return to the owning product skill.
+1. Identify create versus update, then classify the product scenario, actor, ownership, and app model.
+2. Use the template index to verify app type, usage, unsupported app types, and update support before selecting a JSON template.
+3. For a new app, replace sample values and reduce scopes to the exact operations required.
+4. For an existing General App, export the complete manifest, preserve unmodified fields, validate with its `app_id`, replace it with `PUT`, and read it back.
+5. For a new General App, validate the manifest and check both HTTP status and response `ok`.
+6. Create native S2S and Meeting SDK apps through the account-scoped endpoint; do not treat their create requests as General App manifests.
+7. Complete post-create event, WebSocket, RTMS, or feature setup that is not reliably encoded by the schema.
+8. Store secrets safely and return to the owning product skill.
+
+## Programmatic Marketplace Operations
+
+If the user wants Codex to create or validate the Marketplace app directly, check whether the
+separate `zoom-marketplace-helper` MCP server is configured. The plugin does not bundle this
+helper. If it is not configured, tell the user to replace `YOUR_HELPER_HOST` with the helper's
+externally reachable HTTPS host and run:
+
+```bash
+codex mcp add zoom-marketplace-helper \
+  --url https://YOUR_HELPER_HOST/mcp \
+  --oauth-resource https://YOUR_HELPER_HOST/mcp
+
+codex mcp login zoom-marketplace-helper \
+  --scopes marketplace:read,marketplace:write,offline_access
+```
+
+The helper must publish the requested OAuth scopes. These are helper-server scopes, not Zoom
+Marketplace app scopes. After authentication, verify the server with `codex mcp list` and use the
+helper for the live Marketplace operation. If the helper is unavailable, produce the request or
+implementation for the user's authorized service instead of claiming the app was created.
 
 ## References
 
 - Marketplace app management: [../rest-api/references/marketplace-apps.md](../rest-api/references/marketplace-apps.md)
 - Template selector: [../rest-api/references/marketplace-app-templates.md](../rest-api/references/marketplace-app-templates.md)
+- Template index: [../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json](../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json)
+- General App update workflow: [../rest-api/references/marketplace-manifest-update-workflow.md](../rest-api/references/marketplace-manifest-update-workflow.md)
 - OAuth: [../oauth/SKILL.md](../oauth/SKILL.md)
 - REST API: [../rest-api/SKILL.md](../rest-api/SKILL.md)

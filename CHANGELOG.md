@@ -4,7 +4,9 @@ All notable changes to this plugin are documented in this file.
 
 ## Unreleased
 
-- no unreleased changes
+- synced the canonical Marketplace template catalog, including the expanded MCP registration manifests
+- added the machine-readable template index and safe full-replacement workflow for updating existing General App manifests
+- updated skill and command routing to distinguish General App manifests from native S2S and Meeting SDK create requests
 
 ## 1.1.0
 

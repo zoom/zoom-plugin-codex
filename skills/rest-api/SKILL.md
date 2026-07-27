@@ -10,7 +10,7 @@ Use this skill when the task needs deterministic Zoom API calls or resource mana
 ## Workflow
 
 1. Define the resource and actor: user, meeting, webinar, recording, AI Services job, docs, chat, phone, account, or admin-level workflow.
-2. Create or validate the owning Marketplace app and manifest before implementing REST calls.
+2. Create or validate the owning Marketplace app before implementing REST calls; use the template index to distinguish General App manifests from native create requests.
 3. Select the endpoint and required scopes from the reference files before coding.
 4. Confirm auth fit: user-level OAuth for user-owned resources, account-level OAuth for admin workflows, Build-platform JWT for AI Services, and only use server-to-server OAuth where the target API documents support for it.
 5. Implement narrow API wrappers with explicit pagination, retry, idempotency, and rate-limit handling.
@@ -22,6 +22,8 @@ Use this skill when the task needs deterministic Zoom API calls or resource mana
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
 - Marketplace app management: [references/marketplace-apps.md](references/marketplace-apps.md)
 - Marketplace template selector: [references/marketplace-app-templates.md](references/marketplace-app-templates.md)
+- Marketplace template index: [assets/marketplace-apps/marketplace-manifest-template-index.json](assets/marketplace-apps/marketplace-manifest-template-index.json)
+- General App update workflow: [references/marketplace-manifest-update-workflow.md](references/marketplace-manifest-update-workflow.md)
 - API architecture: [concepts/api-architecture.md](concepts/api-architecture.md)
 - Authentication flows: [concepts/authentication-flows.md](concepts/authentication-flows.md)
 - Rate limits: [references/rate-limits.md](references/rate-limits.md)

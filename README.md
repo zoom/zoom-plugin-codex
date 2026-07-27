@@ -56,7 +56,7 @@ Use the bundled slash commands when you want a deterministic flow rather than op
 |---|---|
 | [`/plan-zoom-product`](commands/plan-zoom-product.md) | Choose the right Zoom product surface for a use case and explain the tradeoffs clearly |
 | [`/plan-zoom-integration`](commands/plan-zoom-integration.md) | Turn a Zoom product idea into a practical build plan with auth, architecture, and milestones |
-| [`/setup-zoom-marketplace-app`](commands/setup-zoom-marketplace-app.md) | Select, create, or validate the app model, manifest, scopes, events, and credentials for a Zoom integration |
+| [`/setup-zoom-marketplace-app`](commands/setup-zoom-marketplace-app.md) | Select, create, update, or validate the app model, manifest, scopes, events, and credentials for a Zoom integration; optionally use a helper MCP server for live API operations |
 | [`/debug-zoom`](commands/debug-zoom.md) | Triage a broken Zoom integration when the failing layer is not yet obvious |
 | [`/setup-zoom-oauth`](commands/setup-zoom-oauth.md) | Inspect the repo, choose the right Zoom OAuth flow, and wire the auth path cleanly |
 | [`/setup-zoom-webhooks`](commands/setup-zoom-webhooks.md) | Implement or correct a Zoom webhook receiver with validation, signature checks, and reliable delivery handling |
@@ -88,6 +88,28 @@ Use the bundled build commands when you want Codex to drive a specific Zoom impl
 | [`/build-zoom-contact-center-app`](commands/build-zoom-contact-center-app.md) | Implement a Zoom Contact Center integration for web, mobile, or backend workflows |
 | [`/build-zoom-virtual-agent`](commands/build-zoom-virtual-agent.md) | Implement a Zoom Virtual Agent integration for web or mobile wrappers |
 
+## Marketplace Helper MCP
+
+The plugin can plan and validate Marketplace app payloads without an MCP server. To let Codex
+create or validate apps programmatically, connect the separate helper MCP server first. The plugin
+does not bundle or host that helper.
+
+Replace `YOUR_HELPER_HOST` with the helper's externally reachable HTTPS host, such as a hosted
+service or temporary tunnel. The helper must expose `/mcp`:
+
+```bash
+codex mcp add zoom-marketplace-helper \
+  --url https://YOUR_HELPER_HOST/mcp \
+  --oauth-resource https://YOUR_HELPER_HOST/mcp
+
+codex mcp login zoom-marketplace-helper \
+  --scopes marketplace:read,marketplace:write,offline_access
+```
+
+The listed scopes are defined by the helper MCP server's OAuth provider; they are not Zoom
+Marketplace app scopes. Run `codex mcp list` after login, then use
+[`/setup-zoom-marketplace-app`](commands/setup-zoom-marketplace-app.md).
+
 ## Reviewer Agents
 
 The plugin also bundles focused reviewer agents for specialist analysis:
@@ -104,7 +126,7 @@ Codex can invoke skills implicitly from task descriptions, or explicitly by ment
 | Skill | Description |
 |---|---|
 | [`start`](skills/start/SKILL.md) | Start with a Zoom app idea and route to the right product and build path |
-| [`setup-zoom-marketplace-app`](skills/setup-zoom-marketplace-app/SKILL.md) | Select or validate the Marketplace app and manifest before product implementation |
+| [`setup-zoom-marketplace-app`](skills/setup-zoom-marketplace-app/SKILL.md) | Select, create, update, or validate the Marketplace app before product implementation |
 | [`setup-zoom-oauth`](skills/setup-zoom-oauth/SKILL.md) | Choose the auth model, scopes, and redirect flow for a Zoom app |
 | [`build-zoom-meeting-app`](skills/build-zoom-meeting-app/SKILL.md) | Build an embedded or managed Zoom meeting flow |
 | [`build-zoom-bot`](skills/build-zoom-bot/SKILL.md) | Build bots, recorders, and real-time meeting processors |

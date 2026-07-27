@@ -19,7 +19,7 @@ Use this skill when the user needs to join, start, or embed real Zoom meetings. 
 ## References
 
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
-- Meeting SDK app template: [../rest-api/assets/marketplace-apps/create-meeting-sdk.json](../rest-api/assets/marketplace-apps/create-meeting-sdk.json)
+- Meeting SDK app template: [../rest-api/assets/marketplace-apps/marketplace-app-creation-template-for-meeting-sdk.json](../rest-api/assets/marketplace-apps/marketplace-app-creation-template-for-meeting-sdk.json)
 - Web: [web/SKILL.md](web/SKILL.md)
 - Android: [android/SKILL.md](android/SKILL.md)
 - iOS: [ios/SKILL.md](ios/SKILL.md)

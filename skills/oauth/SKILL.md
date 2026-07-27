@@ -10,7 +10,7 @@ Use this skill for concrete Zoom authentication implementation and troubleshooti
 ## Workflow
 
 1. Identify the app type and actor: user-level OAuth, account-level OAuth, server-to-server OAuth where officially supported, SDK JWT, or Build-platform credentials.
-2. Create or validate the app and manifest with the Marketplace template selector before implementing token flows.
+2. Create or validate the app with the Marketplace template selector and machine-readable index before implementing token flows; do not treat native S2S or Meeting SDK create requests as General App manifests.
 3. Confirm the target API, SDK, or app surface, because scopes and token audiences differ by surface.
 4. Choose the grant flow: authorization code with PKCE for public clients, authorization code for confidential web apps, device authorization where appropriate, or account credentials for supported account-level automation.
 5. Store refresh tokens as single-use values: persist the replacement refresh token returned by each refresh response before reusing the old one.
@@ -21,6 +21,7 @@ Use this skill for concrete Zoom authentication implementation and troubleshooti
 
 - Full preserved guide: [references/full-guide.md](references/full-guide.md)
 - Marketplace template selector: [../rest-api/references/marketplace-app-templates.md](../rest-api/references/marketplace-app-templates.md)
+- Marketplace template index: [../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json](../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json)
 - OAuth flows: [concepts/oauth-flows.md](concepts/oauth-flows.md)
 - Token lifecycle: [concepts/token-lifecycle.md](concepts/token-lifecycle.md)
 - Scope architecture: [concepts/scopes-architecture.md](concepts/scopes-architecture.md)
