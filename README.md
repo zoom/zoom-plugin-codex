@@ -144,8 +144,11 @@ cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 ```
 
 Use the generated HTTPS URL when configuring the app's home URL, OAuth redirect URL, and
-webhook endpoint. Keep the tunnel running while testing, register the exact callback paths in
-Zoom Marketplace, and use a deployed service for production rather than a temporary tunnel.
+webhook endpoint. After the tunnel is running, use the configured `zoom-marketplace-helper`
+MCP server to create the app with those URLs or update the existing app by its `app_id`.
+Register the exact callback paths in Zoom Marketplace, keep the tunnel running while testing,
+and repeat the helper update if the tunnel URL changes. Use a deployed service for production
+rather than a temporary tunnel.
 
 ## Reviewer Agents
 
