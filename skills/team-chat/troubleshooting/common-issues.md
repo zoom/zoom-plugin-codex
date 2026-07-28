@@ -19,7 +19,7 @@ Quick diagnostics and solutions for Zoom Team Chat development.
 
 **Fix**:
 - Use `https://zoom.us/oauth/token` for token exchange.
-- Do not use `https://zoom.us/oauth/token` for chatbot token requests.
+- For chatbot messages, use that token endpoint with `grant_type=client_credentials`.
 
 Quick check:
 ```bash
@@ -29,14 +29,34 @@ curl -X POST https://zoom.us/oauth/token \
   -d "grant_type=client_credentials"
 ```
 
+For `POST /v2/im/chat/messages`, use only the `client_credentials` chatbot token. Do not use an
+authorization-code or user OAuth token. A successful webhook HTTP 200 is not proof that the bot
+reply succeeded; inspect and log the outbound Zoom response status/body and confirm the reply in
+Team Chat.
+
+### 401 code 7010: "Invalid authorization token"
+
+Check for a mixed environment before changing scopes or payloads:
+
+- development token sent to the production API
+- production token sent to the development API
+- Bot JID belongs to a different environment
+- credentials and Bot JID belong to different Marketplace apps
+
+Then run a real slash-command test and verify the complete chain: `bot_notification` arrived with
+`cmd`, `toJid`, `userJid`, and `accountId`; chatbot token acquisition succeeded; the message API
+accepted the response; and the reply appeared in Team Chat.
+
 ### "Token expired"
 
-**Cause**: Access token has expired (1 hour for user tokens)
+**Cause**: Access token has expired (typically 1 hour for user tokens)
 
 **Solution**:
 ```javascript
 // Implement token refresh
 if (error.message.includes('token expired')) {
+  // User OAuth: refresh the user token. Chatbot API: request a new
+  // client_credentials token instead of using a user refresh token.
   const newToken = await refreshAccessToken(refreshToken);
   // Retry request with new token
 }
@@ -146,8 +166,8 @@ console.log('Signature from Zoom:', req.headers['x-zm-signature']);
 
 1. **Wrong `to_jid`**
    ```javascript
-   // Use toJid from webhook payload
-   await sendMessage(payload.toJid, accountId, content);
+   // Use routing fields from the bot_notification payload
+   await sendMessage(payload.toJid, payload.userJid, payload.accountId, content);
    ```
 
 2. **Missing `account_id`**
@@ -156,7 +176,8 @@ console.log('Signature from Zoom:', req.headers['x-zm-signature']);
    {
      "account_id": process.env.ZOOM_ACCOUNT_ID,  // Don't forget!
      "robot_jid": process.env.ZOOM_BOT_JID,
-     "to_jid": toJid
+     "to_jid": toJid,
+     "user_jid": userJid
    }
    ```
 

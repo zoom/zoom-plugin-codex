@@ -13,9 +13,11 @@ Use this skill when the target surface is Zoom Team Chat. First decide whether t
 2. Select the user, admin, S2S API, or chatbot Marketplace template; do not use S2S for the chatbot subscription feature.
 3. Confirm app type, scopes, role enablement, and whether the account has Zoom for Developers enabled.
 4. Model message structure before coding: plain messages, rich cards, buttons, dropdowns, forms, slash commands, and threaded replies.
-5. Implement OAuth and token refresh separately from message sending, with clear storage boundaries.
-6. Add webhook handlers for interactivity and lifecycle events with signature verification and retry-safe processing.
-7. Debug by checking JID formats, channel membership, bot installation, scopes, role settings, and message-card payload shape.
+5. For Chatbot API messages, obtain the access token with `grant_type=client_credentials`; do not use an authorization-code or user OAuth token.
+6. Build `/v2/im/chat/messages` payloads from the incoming `bot_notification` fields, including `robot_jid`, `to_jid`, `user_jid`, and `account_id`.
+7. Add webhook handlers for interactivity and lifecycle events with signature verification and retry-safe processing. A webhook HTTP 200 confirms receipt only, not a successful chatbot reply.
+8. Verify the outbound message API response status/body and the visible Team Chat reply; test with a real slash command end to end.
+9. For 401/code 7010, check for mixed development/production tokens, Bot JIDs, and Marketplace app credentials before changing payloads.
 
 ## References
 

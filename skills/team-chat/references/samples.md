@@ -77,10 +77,17 @@ async function getChatbotToken() {
   
   const response = await fetch('https://zoom.us/oauth/token', {
     method: 'POST',
-    headers: { 'Authorization': `Basic ${credentials}` },
+    headers: {
+      'Authorization': `Basic ${credentials}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
     body: 'grant_type=client_credentials'
   });
-  
+
+  if (!response.ok) {
+    throw new Error(`Chatbot token request failed: ${await response.text()}`);
+  }
+
   return (await response.json()).access_token;
 }
 ```
@@ -107,7 +114,7 @@ async function getChatbotToken() {
 **LLM Integration Pattern**:
 ```javascript
 case 'bot_notification': {
-  const { toJid, cmd, accountId } = payload;
+  const { toJid, userJid, cmd, accountId } = payload;
   
   // Call your LLM provider
   const response = await llmClient.responses.create({
@@ -119,7 +126,7 @@ case 'bot_notification': {
   const llmResponse = response.content[0].text;
   
   // Send back to Zoom
-  await sendChatbotMessage(toJid, accountId, {
+  await sendChatbotMessage(toJid, userJid, accountId, {
     body: [{ type: 'message', text: llmResponse }]
   });
 }
@@ -231,8 +238,10 @@ const cron = require('node-cron');
 // Daily report at 9 AM
 cron.schedule('0 9 * * *', async () => {
   const report = await getERPReport();
+  // Proactive messages need a configured recipient user JID.
+  const userJid = process.env.ZOOM_TARGET_USER_JID;
   
-  await sendChatbotMessage(channelJid, accountId, {
+  await sendChatbotMessage(channelJid, userJid, accountId, {
     head: { "text": "Daily ERP Report" },
     body: [
       { "type": "fields", "items": report.fields },
@@ -293,37 +302,45 @@ case 'interactive_message_actions': {
 ```javascript
 // CREATE
 case 'bot_notification': {
+  const { toJid, userJid, cmd, accountId } = payload;
+
   if (cmd.startsWith('create task')) {
     const taskData = parseTaskCommand(cmd);
     const task = await db.createTask(taskData);
-    await sendTaskCreatedMessage(toJid, accountId, task);
+    await sendTaskCreatedMessage(toJid, userJid, accountId, task);
   }
 }
 
 // READ
 case 'interactive_message_actions': {
+  const { actionItem, toJid, userJid, accountId } = payload;
+
   if (actionItem.value.startsWith('view_task')) {
     const taskId = actionItem.value.split('_')[2];
     const task = await db.getTask(taskId);
-    await sendTaskDetails(toJid, accountId, task);
+    await sendTaskDetails(toJid, userJid, accountId, task);
   }
 }
 
 // UPDATE
 case 'interactive_message_actions': {
+  const { actionItem, toJid, userJid, accountId } = payload;
+
   if (actionItem.value.startsWith('complete_task')) {
     const taskId = actionItem.value.split('_')[2];
     await db.updateTaskStatus(taskId, 'completed');
-    await sendStatusUpdate(toJid, accountId, taskId);
+    await sendStatusUpdate(toJid, userJid, accountId, taskId);
   }
 }
 
 // DELETE
 case 'interactive_message_actions': {
+  const { actionItem, toJid, userJid, accountId } = payload;
+
   if (actionItem.value.startsWith('delete_task')) {
     const taskId = actionItem.value.split('_')[2];
     await db.deleteTask(taskId);
-    await sendDeletionConfirmation(toJid, accountId, taskId);
+    await sendDeletionConfirmation(toJid, userJid, accountId, taskId);
   }
 }
 ```
@@ -341,6 +358,7 @@ All samples use `.env` files with similar structure:
 ZOOM_CLIENT_ID=
 ZOOM_CLIENT_SECRET=
 ZOOM_BOT_JID=
+ZOOM_TARGET_USER_JID=  # Required for proactive bot messages without a webhook payload
 ZOOM_VERIFICATION_TOKEN=
 ZOOM_ACCOUNT_ID=
 

@@ -273,6 +273,7 @@ Fired when:
 **Key Fields**:
 - `cmd` - User's input after the slash command
 - `toJid` - Where to send response (channel or DM)
+- `userJid` - User JID to map to the outgoing `user_jid` field
 - `accountId` - Account identifier
 
 **Use Case**: Process commands, integrate LLM, send responses
@@ -280,7 +281,7 @@ Fired when:
 **Implementation**:
 ```javascript
 async function handleBotNotification(payload, res) {
-  const { toJid, cmd, accountId, userName } = payload;
+  const { toJid, userJid, cmd, accountId, userName } = payload;
   
   console.log(`${userName} sent: ${cmd}`);
   
@@ -288,9 +289,11 @@ async function handleBotNotification(payload, res) {
   const response = await processCommand(cmd);
   
   // Send response
-  await sendChatbotMessage(toJid, accountId, {
+  const zoomResponse = await sendChatbotMessage(toJid, userJid, accountId, {
     body: [{ type: 'message', text: response }]
   });
+
+  console.log('Chatbot reply accepted by Zoom:', zoomResponse);
   
   return res.status(200).json({ success: true });
 }
@@ -307,6 +310,7 @@ Fired when user clicks a button in a chatbot message.
   "payload": {
     "accountId": "...",
     "toJid": "...",
+    "userJid": "...",
     "actionItem": {
       "text": "Approve",
       "value": "approve"  // This is what you check
@@ -322,19 +326,19 @@ Fired when user clicks a button in a chatbot message.
 **Implementation**:
 ```javascript
 async function handleButtonClick(payload, res) {
-  const { actionItem, toJid, accountId, userName } = payload;
+  const { actionItem, toJid, userJid, accountId, userName } = payload;
   
   console.log(`${userName} clicked: ${actionItem.value}`);
   
   switch (actionItem.value) {
     case 'approve':
-      await sendChatbotMessage(toJid, accountId, {
+      await sendChatbotMessage(toJid, userJid, accountId, {
         body: [{ type: 'message', text: '✅ Approved!' }]
       });
       break;
     
     case 'reject':
-      await sendChatbotMessage(toJid, accountId, {
+      await sendChatbotMessage(toJid, userJid, accountId, {
         body: [{ type: 'message', text: '❌ Rejected' }]
       });
       break;

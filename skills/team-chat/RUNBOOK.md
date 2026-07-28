@@ -20,9 +20,32 @@ If this is wrong, everything else will fail.
 - Authorize URL: `https://zoom.us/oauth/authorize`
 - Token URL: `https://zoom.us/oauth/token`
 
-If token requests hit `/oauth/token`, expect 404/HTML.
+If token requests use a different host or path than `https://zoom.us/oauth/token`, expect 404/HTML.
 
-## 3) Confirm Runtime Env Loading
+For Chatbot API messages, use `grant_type=client_credentials` and do not use an
+authorization-code or user OAuth token.
+
+## 3) Confirm Chatbot Reply Context
+
+Build every `POST /v2/im/chat/messages` request from the incoming `bot_notification`:
+
+- `robot_jid` <- configured Bot JID
+- `to_jid` <- `payload.toJid`
+- `user_jid` <- `payload.userJid`
+- `account_id` <- `payload.accountId`
+
+A webhook HTTP 200 confirms event receipt only. Log the outbound Zoom response status/body and
+confirm the reply appeared in Team Chat.
+
+For a real slash-command smoke test, confirm `cmd`, `toJid`, `userJid`, and `accountId` were
+present, token acquisition succeeded, the message API accepted the reply, and the reply was
+visible in Team Chat.
+
+If Zoom returns 401/code 7010, check for a mixed environment: development token with production
+API, production token with development API, a Bot JID from another environment, or credentials
+and Bot JID from different Marketplace apps.
+
+## 4) Confirm Runtime Env Loading
 
 If credentials are split by mode, verify your server loads the actual files at runtime:
 
@@ -31,7 +54,7 @@ If credentials are split by mode, verify your server loads the actual files at r
 
 Do not assume root `.env` is enough.
 
-## 4) Confirm App Routes + Reverse Proxy
+## 5) Confirm App Routes + Reverse Proxy
 
 - Current demo pages:
   - `/team-chat/user-demo`
@@ -40,7 +63,7 @@ Do not assume root `.env` is enough.
 
 If browser calls old routes (`/api/channel/*`) and gets 404, either update frontend or keep compatibility routes.
 
-## 5) Run Curl Probes
+## 6) Run Curl Probes
 
 Use backend probes before browser debugging.
 
@@ -57,7 +80,7 @@ Expected:
 - `api/bot/token` should return JSON (200 or actionable 4xx), never HTML 404 page.
 - `api/channel/list` returns validation errors or data, not generic 404.
 
-## 6) Browser-Specific Reality Check
+## 7) Browser-Specific Reality Check
 
 `ERR_BLOCKED_BY_CLIENT` usually means extension/adblock/privacy filter interference.
 
@@ -65,7 +88,7 @@ Expected:
 - Temporarily disable blockers for host.
 - Validate with curl first.
 
-## 7) User OAuth Callback Flow (In-App)
+## 8) User OAuth Callback Flow (In-App)
 
 For user-demo, avoid manual copy/paste flow:
 
@@ -77,7 +100,7 @@ For user-demo, avoid manual copy/paste flow:
 
 If callback returns but token is missing, focus on `state` validation and persistence path.
 
-## 8) Fast Decision Tree
+## 9) Fast Decision Tree
 
 - **404 on bot token** -> check token URL (`/oauth/token`), then proxy path.
 - **All channel APIs 404** -> route mismatch (old UI vs new backend routes).

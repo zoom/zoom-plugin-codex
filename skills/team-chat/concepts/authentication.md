@@ -18,8 +18,14 @@ Use **client credentials** when you want messages/actions to appear as a bot.
 
 - Typical endpoint:
   - Send bot message: `POST /v2/im/chat/messages`
+- Token grant: `grant_type=client_credentials`
+- Do not use authorization-code or user OAuth tokens for chatbot messages.
 - Typical “scope”:
   - `imchat:bot` (added by enabling Chatbot feature on the app)
+
+Build the outgoing payload from the `bot_notification` event. The bot-message request must
+include the configured `robot_jid`, the event's `toJid`, `userJid`, and `accountId` as
+`robot_jid`, `to_jid`, `user_jid`, and `account_id`.
 
 ## Decision Checklist
 
@@ -33,4 +39,6 @@ Use **client credentials** when you want messages/actions to appear as a bot.
 - OAuth URL split is easy to mix up:
   - authorize step: `https://zoom.us/oauth/authorize`
   - token step (all grant types): `https://zoom.us/oauth/token`
+- A webhook HTTP 200 only acknowledges event receipt. Inspect and log the outbound
+  `/v2/im/chat/messages` status/body and confirm the reply is visible in Team Chat.
 - In browser demos, complete OAuth end-to-end in app (state verify -> callback -> code exchange -> token store) to avoid copy/paste mistakes.

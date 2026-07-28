@@ -167,9 +167,24 @@ const response = await fetch('https://zoom.us/oauth/token', {
 
 const { access_token } = await response.json();
 
-// Step 2: Use access token to send bot messages
+// Step 2: Build the request from bot_notification and send the bot message
+const botMessage = {
+  robot_jid: process.env.ZOOM_BOT_JID,
+  to_jid: payload.toJid,
+  user_jid: payload.userJid,
+  account_id: payload.accountId,
+  content: {
+    body: [{ type: 'message', text: 'Response text' }]
+  }
+};
+
 fetch('https://api.zoom.us/v2/im/chat/messages', {
-  headers: { 'Authorization': `Bearer ${access_token}` }
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${access_token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(botMessage)
 });
 ```
 
