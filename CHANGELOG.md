@@ -8,6 +8,11 @@ All notable changes to this plugin are documented in this file.
 - added the machine-readable template index and safe full-replacement workflow for updating existing General App manifests
 - updated skill and command routing to distinguish General App manifests from native S2S and Meeting SDK create requests
 
+## 1.2.0
+
+- documented the seven official Zoom-hosted MCP server surfaces, endpoints, tools, scope families, and matching Marketplace templates
+- added ngrok and Cloudflare Tunnel guidance for testing Marketplace-created apps without a deployed HTTPS server
+
 ## 1.1.0
 
 - added `/setup-zoom-marketplace-app` and the matching skill for app-model selection, manifest validation, scopes, events, credential handling, and post-create setup
