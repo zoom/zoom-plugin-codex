@@ -39,11 +39,27 @@ Marketplace app scopes. After authentication, verify the server with `codex mcp 
 helper for the live Marketplace operation. If the helper is unavailable, produce the request or
 implementation for the user's authorized service instead of claiming the app was created.
 
+When creating an app for local testing, ask whether the user already has a deployed HTTPS
+server. If not, suggest [ngrok](https://ngrok.com/) or, alternatively,
+[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
+to expose the local app:
+
+```bash
+ngrok http YOUR_LOCAL_PORT
+# or
+cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
+```
+
+Use the generated HTTPS origin for the app home URL, OAuth redirect URL, and webhook endpoint.
+Register exact callback paths in Zoom Marketplace, keep the tunnel running during testing, and
+state that a temporary tunnel is for development only, not production.
+
 ## References
 
 - Marketplace app management: [../rest-api/references/marketplace-apps.md](../rest-api/references/marketplace-apps.md)
 - Template selector: [../rest-api/references/marketplace-app-templates.md](../rest-api/references/marketplace-app-templates.md)
 - Template index: [../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json](../rest-api/assets/marketplace-apps/marketplace-manifest-template-index.json)
 - General App update workflow: [../rest-api/references/marketplace-manifest-update-workflow.md](../rest-api/references/marketplace-manifest-update-workflow.md)
+- Zoom MCP server catalog: [../zoom-mcp/SKILL.md](../zoom-mcp/SKILL.md)
 - OAuth: [../oauth/SKILL.md](../oauth/SKILL.md)
 - REST API: [../rest-api/SKILL.md](../rest-api/SKILL.md)

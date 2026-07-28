@@ -24,9 +24,30 @@ Use `Zoom` when you want Codex to:
 - search Zoom meetings by topic, attendee, or content
 - retrieve summaries, transcripts, recordings, and related meeting assets
 - pull meeting context into coding, documentation, or follow-up workflows
+- route Zoom MCP requests to the correct hosted product server
 - choose the right Zoom product surface for an integration
 - build Zoom REST API, SDK, webhook, WebSocket, bot, and automation workflows
 - debug Zoom auth, event delivery, SDK, and API issues
+
+## Zoom MCP Servers
+
+The Zoom app connector can use the official Zoom-hosted MCP surfaces below. All canonical
+endpoints use `mcp.zoom.us`; the detailed tool and scope matrix is in the
+[`zoom-mcp` skill](skills/zoom-mcp/SKILL.md).
+
+| Server | Endpoint | Use |
+|---|---|---|
+| Zoom MCP | `https://mcp.zoom.us/mcp/zoom/streamable` | Cross-Zoom search, meeting assets, recordings, Docs, and Hub content |
+| Meetings MCP | `https://mcp.zoom.us/mcp/meeting/streamable` | Meeting search, assets, and recordings |
+| Docs MCP | `https://mcp.zoom.us/mcp/docs/streamable` | Create Docs from Markdown and retrieve file content |
+| Tasks MCP | `https://mcp.zoom.us/mcp/tasks/streamable` | Tasks, comments, assignees, collaborators, and task steps |
+| Revenue Accelerator MCP | `https://mcp.zoom.us/mcp/revenue_accelerator/streamable` | Conversation, deal, CRM, scorecard, and indicator intelligence |
+| Chat MCP | `https://mcp.zoom.us/mcp/chat/streamable` | Chat messages, channels, contacts, files, sessions, search, and writes |
+| Whiteboard MCP | `https://mcp.zoom.us/mcp/whiteboard/streamable` | Whiteboard creation, retrieval, and collaboration |
+
+The legacy Chat endpoint `https://mcp.zoom.us/mcp/team_chat/streamable` remains available;
+use `/mcp/chat/streamable` for new configurations. Use the matching Marketplace template and
+request only the scopes required by the selected server's tools.
 
 ## Local Testing
 
@@ -110,6 +131,22 @@ The listed scopes are defined by the helper MCP server's OAuth provider; they ar
 Marketplace app scopes. Run `codex mcp list` after login, then use
 [`/setup-zoom-marketplace-app`](commands/setup-zoom-marketplace-app.md).
 
+### Testing Local App URLs
+
+If you are creating and testing a Zoom app without an existing deployed server, expose your
+local app over HTTPS with [ngrok](https://ngrok.com/) or, alternatively,
+[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/):
+
+```bash
+ngrok http YOUR_LOCAL_PORT
+# or
+cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
+```
+
+Use the generated HTTPS URL when configuring the app's home URL, OAuth redirect URL, and
+webhook endpoint. Keep the tunnel running while testing, register the exact callback paths in
+Zoom Marketplace, and use a deployed service for production rather than a temporary tunnel.
+
 ## Reviewer Agents
 
 The plugin also bundles focused reviewer agents for specialist analysis:
@@ -131,6 +168,7 @@ Codex can invoke skills implicitly from task descriptions, or explicitly by ment
 | [`build-zoom-meeting-app`](skills/build-zoom-meeting-app/SKILL.md) | Build an embedded or managed Zoom meeting flow |
 | [`build-zoom-bot`](skills/build-zoom-bot/SKILL.md) | Build bots, recorders, and real-time meeting processors |
 | [`debug-zoom`](skills/debug-zoom/SKILL.md) | Triage a broken Zoom integration and isolate the failing layer |
+| [`zoom-mcp`](skills/zoom-mcp/SKILL.md) | Select the correct Zoom-hosted MCP server, endpoint, tools, and Marketplace template |
 | [`build-zoom-rest-api-app`](skills/rest-api/SKILL.md) | Route into Zoom REST endpoints, scopes, and resource patterns |
 | [`build-zoom-meeting-sdk-app`](skills/meeting-sdk/SKILL.md) | Route into embedded Zoom meeting implementation details |
 | [`build-zoom-video-sdk-app`](skills/video-sdk/SKILL.md) | Route into custom video-session implementation details |
@@ -157,6 +195,7 @@ The plugin keeps the Zoom product-specific reference library under `skills/`. Th
 - [`skills/websockets/`](skills/websockets/)
 - [`skills/rtms/`](skills/rtms/)
 - [`skills/oauth/`](skills/oauth/)
+- [`skills/zoom-mcp/`](skills/zoom-mcp/)
 - [`skills/scribe/`](skills/scribe/)
 - [`skills/summarizer/`](skills/summarizer/)
 - [`skills/translator/`](skills/translator/)

@@ -27,7 +27,12 @@
     "ai-services",
     "scribe",
     "summarizer",
-    "translator"
+    "translator",
+    "mcp",
+    "zoom-mcp",
+    "tasks",
+    "revenue-accelerator",
+    "whiteboard"
   ],
   "apps": "./.app.json",
   "skills": "./skills/",

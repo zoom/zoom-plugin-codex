@@ -469,7 +469,7 @@ Read-only exports of existing apps on 2026-07-08 surfaced these useful shape pat
 | Webhook-heavy app | `event_subscription.enable: true` can appear even when `products: []`; event entries use `event_usage` such as `EVENT_FOR_USER` or `EVENT_FOR_ADMIN`; large event lists may not round-trip through validation unchanged | [Webhooks](../../webhooks/SKILL.md) and this Marketplace reference |
 | WebSocket event app | Account-level only; use S2S or admin-managed General App, then select WebSocket delivery in Features > Access because the public manifest schema does not expose a reliable one-shot field | [WebSockets](../../websockets/SKILL.md) |
 | Plugin SDK companion | `usage: "USER_OPERATION"`, scope `plugin_sdk:read:connection_meta`, PKCE for native clients, and `plugin_sdk.enable: true`; the OAuth user must match the user signed in to Zoom Workplace | [OAuth](../../oauth/SKILL.md) plus the official Plugin SDK documentation |
-| MCP API app | `usage: "USER_OPERATION"`, `products: []` or omitted, no Team Chat subscription, scopes for AI Companion search, docs import/export, meeting assets/search, recordings, or Team Chat MCP workflows | [REST API](../SKILL.md) app-registration guidance |
+| MCP API app | `usage: "USER_OPERATION"`, `products: []` or omitted, no Team Chat subscription, and scopes selected for the exact Zoom MCP server tools | [Zoom MCP](../../zoom-mcp/SKILL.md) and [Marketplace template selector](marketplace-app-templates.md) |
 
 Do not infer app behavior from `app_type` alone. Existing apps returned both `OAuthApp` and
 `ZoomApp` for General-app-style manifests; inspect `oauth_information.usage`, `products`,

@@ -62,6 +62,22 @@ These scopes belong to the helper MCP server's OAuth provider. They are not Zoom
 scopes. Confirm that the helper publishes these scopes before requesting them. After login, run
 `codex mcp list` and then rerun this command workflow.
 
+### Testing Without A Deployed App Server
+
+If the app being created does not already have a deployed HTTPS server, recommend a temporary
+tunnel before filling in its URLs. Use [ngrok](https://ngrok.com/) or, alternatively,
+[Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/):
+
+```bash
+ngrok http YOUR_LOCAL_PORT
+# or
+cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
+```
+
+Use the tunnel's HTTPS origin for the app home URL, OAuth redirect URL, and webhook endpoint.
+Register the exact paths in Zoom Marketplace and keep the tunnel running during the test. Do
+not treat a temporary tunnel as a production deployment.
+
 ## Verification
 
 1. Validate every edited JSON file with a JSON parser.
