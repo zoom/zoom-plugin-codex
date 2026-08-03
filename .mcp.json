@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "zoom-marketplace-helper": {
+      "type": "http",
+      "url": "https://6a61-38-99-100-21.ngrok-free.app/mcp",
+      "oauth_resource": "https://6a61-38-99-100-21.ngrok-free.app/mcp",
+      "scopes": [
+        "marketplace:read",
+        "marketplace:write",
+        "offline_access"
+      ]
+    }
+  }
+}

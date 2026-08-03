@@ -50,14 +50,14 @@ endpoint, and the same resource URL must be passed to both flags.
 
 ```bash
 codex mcp add zoom-marketplace-helper \
-  --url https://d3k9b5xygup21i.cloudfront.net/mcp \
-  --oauth-resource https://d3k9b5xygup21i.cloudfront.net/mcp
+  --url https://6a61-38-99-100-21.ngrok-free.app/mcp \
+  --oauth-resource https://6a61-38-99-100-21.ngrok-free.app/mcp
 
 codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
 
-The CloudFront URL above belongs only to the marketplace-helper MCP server. Never copy it into a
+The helper MCP URL above belongs only to the marketplace-helper server. Never copy it into a
 user's Zoom app configuration as the app home URL, OAuth redirect URL, webhook URL, or OAuth
 authorization URL.
 
