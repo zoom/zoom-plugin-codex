@@ -1,6 +1,6 @@
 {
   "name": "zoom",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Connect Codex to Zoom meeting context and register, build, and debug Zoom apps, bots, API integrations, SDK workflows, AI Services pipelines, webhooks, and automations.",
   "author": {
     "name": "Zoom",
@@ -34,6 +34,7 @@
     "revenue-accelerator",
     "whiteboard"
   ],
+  "mcpServers": "./.mcp.json",
   "apps": "./.app.json",
   "skills": "./skills/",
   "interface": {

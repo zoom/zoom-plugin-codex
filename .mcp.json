@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "zoom-marketplace-helper": {
+      "type": "http",
+      "url": "https://d3k9b5xygup21i.cloudfront.net/mcp",
+      "oauth_resource": "https://d3k9b5xygup21i.cloudfront.net/mcp",
+      "scopes": [
+        "marketplace:read",
+        "marketplace:write",
+        "offline_access"
+      ]
+    }
+  }
+}

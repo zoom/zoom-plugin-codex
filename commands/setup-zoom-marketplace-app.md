@@ -57,7 +57,7 @@ codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
 
-The CloudFront URL above belongs only to the marketplace-helper MCP server. Never copy it into a
+The helper MCP URL above belongs only to the marketplace-helper server. Never copy it into a
 user's Zoom app configuration as the app home URL, OAuth redirect URL, webhook URL, or OAuth
 authorization URL.
 

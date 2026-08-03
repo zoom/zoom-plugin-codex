@@ -2,11 +2,15 @@
 
 All notable changes to this plugin are documented in this file.
 
-## Unreleased
+## 1.2.1
 
 - synced the canonical Marketplace template catalog, including the expanded MCP registration manifests
 - added the machine-readable template index and safe full-replacement workflow for updating existing General App manifests
 - updated skill and command routing to distinguish General App manifests from native S2S and Meeting SDK create requests
+- documented the marketplace-helper MCP endpoint and clarified that created apps must use each user's own OAuth, home, and webhook endpoints
+- bundled the production marketplace-helper MCP connection and OAuth scopes with the plugin
+
+## Unreleased
 
 ## 1.2.0
 
