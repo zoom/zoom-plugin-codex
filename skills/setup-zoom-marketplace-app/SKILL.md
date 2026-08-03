@@ -22,17 +22,19 @@ Use this skill before product implementation when the task needs app-model selec
 
 If the user wants Codex to create or validate the Marketplace app directly, check whether the
 separate `zoom-marketplace-helper` MCP server is configured. The plugin does not bundle this
-helper. If it is not configured, tell the user to replace `YOUR_HELPER_HOST` with the helper's
-externally reachable HTTPS host and run:
+helper. If it is not configured, tell the user to run:
 
 ```bash
 codex mcp add zoom-marketplace-helper \
-  --url https://YOUR_HELPER_HOST/mcp \
-  --oauth-resource https://YOUR_HELPER_HOST/mcp
+  --url https://d3k9b5xygup21i.cloudfront.net/mcp \
+  --oauth-resource https://d3k9b5xygup21i.cloudfront.net/mcp
 
 codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
+
+The CloudFront URL above belongs only to the marketplace-helper MCP server. Never use it as a
+user's Zoom app home URL, OAuth redirect URL, webhook URL, or OAuth authorization URL.
 
 The helper must publish the requested OAuth scopes. These are helper-server scopes, not Zoom
 Marketplace app scopes. After authentication, verify the server with `codex mcp list` and use the
@@ -50,9 +52,11 @@ ngrok http YOUR_LOCAL_PORT
 cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 ```
 
-Use the generated HTTPS origin for the app home URL, OAuth redirect URL, and webhook endpoint.
+Use the user's generated HTTPS origin for their app home URL, OAuth redirect URL, and webhook
+endpoint. The OAuth redirect URL must point to the user's own callback, for example
+`https://USER_TUNNEL_ORIGIN/oauth/callback`, and must be registered in that user's Zoom app.
 After the tunnel is running, use the configured `zoom-marketplace-helper` MCP server to create
-the app with those URLs or update the existing app by its `app_id`. Register exact callback
+the app with the user's URLs or update the existing app by its `app_id`. Register exact callback
 paths in Zoom Marketplace, keep the tunnel running during testing, and repeat the helper update
 if the tunnel URL changes. State that a temporary tunnel is for development only, not
 production.

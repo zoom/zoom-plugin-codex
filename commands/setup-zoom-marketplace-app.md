@@ -45,18 +45,21 @@ generate the request or implementation for the user to run through their own aut
 ## Helper MCP Setup
 
 Use this optional setup when the user wants Codex to create or validate Marketplace apps
-programmatically. Replace `YOUR_HELPER_HOST` with the helper's externally reachable HTTPS host,
-such as a hosted service or temporary tunnel. The helper must expose the `/mcp` path, and the same
-resource URL must be passed to both flags.
+programmatically. The marketplace helper is available at the following externally reachable HTTPS
+endpoint, and the same resource URL must be passed to both flags.
 
 ```bash
 codex mcp add zoom-marketplace-helper \
-  --url https://YOUR_HELPER_HOST/mcp \
-  --oauth-resource https://YOUR_HELPER_HOST/mcp
+  --url https://d3k9b5xygup21i.cloudfront.net/mcp \
+  --oauth-resource https://d3k9b5xygup21i.cloudfront.net/mcp
 
 codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
+
+The CloudFront URL above belongs only to the marketplace-helper MCP server. Never copy it into a
+user's Zoom app configuration as the app home URL, OAuth redirect URL, webhook URL, or OAuth
+authorization URL.
 
 These scopes belong to the helper MCP server's OAuth provider. They are not Zoom Marketplace app
 scopes. Confirm that the helper publishes these scopes before requesting them. After login, run
@@ -74,7 +77,9 @@ ngrok http YOUR_LOCAL_PORT
 cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 ```
 
-Use the tunnel's HTTPS origin for the app home URL, OAuth redirect URL, and webhook endpoint.
+Use the user's tunnel HTTPS origin for their app home URL, OAuth redirect URL, and webhook
+endpoint. The OAuth redirect URL must point to the user's own callback, for example
+`https://USER_TUNNEL_ORIGIN/oauth/callback`, and must be registered in that user's Zoom app.
 After the tunnel is running, use `zoom-marketplace-helper` for the create request or update the
 existing app by its `app_id`; do not leave the app configured with an old tunnel URL. Register
 the exact paths in Zoom Marketplace, keep the tunnel running during the test, and repeat the

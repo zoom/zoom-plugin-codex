@@ -115,17 +115,19 @@ The plugin can plan and validate Marketplace app payloads without an MCP server.
 create or validate apps programmatically, connect the separate helper MCP server first. The plugin
 does not bundle or host that helper.
 
-Replace `YOUR_HELPER_HOST` with the helper's externally reachable HTTPS host, such as a hosted
-service or temporary tunnel. The helper must expose `/mcp`:
+The helper is available at the following externally reachable HTTPS endpoint:
 
 ```bash
 codex mcp add zoom-marketplace-helper \
-  --url https://YOUR_HELPER_HOST/mcp \
-  --oauth-resource https://YOUR_HELPER_HOST/mcp
+  --url https://d3k9b5xygup21i.cloudfront.net/mcp \
+  --oauth-resource https://d3k9b5xygup21i.cloudfront.net/mcp
 
 codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
+
+The CloudFront URL above belongs only to the marketplace-helper MCP server. Never use it as a
+user's Zoom app home URL, OAuth redirect URL, webhook URL, or OAuth authorization URL.
 
 The listed scopes are defined by the helper MCP server's OAuth provider; they are not Zoom
 Marketplace app scopes. Run `codex mcp list` after login, then use
@@ -143,9 +145,11 @@ ngrok http YOUR_LOCAL_PORT
 cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 ```
 
-Use the generated HTTPS URL when configuring the app's home URL, OAuth redirect URL, and
-webhook endpoint. After the tunnel is running, use the configured `zoom-marketplace-helper`
-MCP server to create the app with those URLs or update the existing app by its `app_id`.
+Use the user's generated HTTPS origin when configuring their app's home URL, OAuth redirect URL,
+and webhook endpoint. The OAuth redirect URL must point to the user's own callback, for example
+`https://USER_TUNNEL_ORIGIN/oauth/callback`, and must be registered in that user's Zoom app.
+After the tunnel is running, use the configured `zoom-marketplace-helper` MCP server to create
+the app with the user's URLs or update the existing app by its `app_id`.
 Register the exact callback paths in Zoom Marketplace, keep the tunnel running while testing,
 and repeat the helper update if the tunnel URL changes. Use a deployed service for production
 rather than a temporary tunnel.
