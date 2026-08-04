@@ -15,6 +15,12 @@ Do not treat shell placeholders such as `${ZOOM_API_KEY}` as valid configured va
 |----------|----------|-------------|
 | `PORT` | No | Local server port |
 | `LANGUAGE` | No | Default language code such as `en-US` |
+| `SCRIBE_LIVE_URL` | No | Override for the Live Mode endpoint; default to `wss://api.zoom.us/v2/aiservices/scribe/live` |
+| `SCRIBE_LIVE_PROXY_PATH` | No | Application-owned browser relay path such as `/live/scribe` |
+
+Generate the Live Mode bearer JWT from `ZOOM_API_KEY` and `ZOOM_API_SECRET` on the trusted
+backend. Do not place a JWT or `ZOOM_API_SECRET` in browser environment variables or frontend
+bundles.
 
 ## Batch / S3 Variables
 

@@ -69,18 +69,22 @@ Guardrail:
 - keep `scribe` focused on transcription
 - do sentiment analysis, keyword detection, or scoring in downstream services after transcript generation
 
-## Scenario 6: Browser Microphone Incremental Transcript
+## Scenario 6: Live Microphone or Voice-Agent Transcription
 
-Use when a web page should capture microphone audio and show transcript updates every few seconds without switching to RTMS.
+Use Live Mode when an application owns a microphone, voice-agent, or telephony audio stream and
+needs completed transcript segments after each detected speech turn.
 
 Flow:
-1. Browser captures microphone audio with `MediaRecorder`.
-2. Browser flushes one chunk every `5 seconds`.
-3. Backend accepts each chunk as a normal fast-mode upload through the async wrapper.
-4. Frontend polls by request ID and appends transcript chunks in order.
+1. A trusted backend opens `wss://api.zoom.us/v2/aiservices/scribe/live` with the `live-asr`
+   subprotocol and a Build-platform JWT.
+2. Send `session.update` with the language and PCM16 format.
+3. Stream little-endian, 16 kHz, mono PCM16 in approximately 100 ms binary frames.
+4. Consume speech events and persist `transcription.completed` segments.
+5. Send `session.close`, drain final events through `session.closed`, and close the socket.
+
+For browser microphone capture, convert audio with an `AudioWorklet` and relay it through an
+authenticated backend WebSocket. Never place the Build-platform JWT in browser code.
 
 Guardrail:
-- this is pseudo-streaming over repeated file uploads
-- this is best kept as a lightweight demo or constrained fallback
-- do not choose it first for a true live-transcription product
-- if the requirement is truly live media stream ingestion or lower-latency continuous audio, route to `rtms`
+- Live Mode transcribes audio the application already owns; it does not acquire meeting media
+- use RTMS when the source is a Zoom meeting, webinar, Video SDK session, or Contact Center stream

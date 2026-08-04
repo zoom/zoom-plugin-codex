@@ -102,7 +102,7 @@ Use the bundled build commands when you want Codex to drive a specific Zoom impl
 | [`/build-zoom-rivet-app`](commands/build-zoom-rivet-app.md) | Implement a server-side Zoom integration with Rivet modules for auth, APIs, and webhooks |
 | [`/build-zoom-probe-flow`](commands/build-zoom-probe-flow.md) | Implement readiness checks with Zoom Probe SDK before users join meetings or sessions |
 | [`/build-zoom-rtms-app`](commands/build-zoom-rtms-app.md) | Implement a Zoom RTMS workflow for live media, transcript, or event-stream processing |
-| [`/build-zoom-scribe-app`](commands/build-zoom-scribe-app.md) | Implement a Zoom Scribe transcription pipeline for uploaded or stored media |
+| [`/build-zoom-scribe-app`](commands/build-zoom-scribe-app.md) | Implement a Zoom Scribe Live, Fast, or Batch transcription pipeline |
 | [`/build-zoom-bot`](commands/build-zoom-bot.md) | Implement a Zoom meeting bot, recorder, or real-time media workflow |
 | [`/build-zoom-team-chat-app`](commands/build-zoom-team-chat-app.md) | Implement a Zoom Team Chat integration or chatbot flow |
 | [`/build-zoom-phone-integration`](commands/build-zoom-phone-integration.md) | Implement a Zoom Phone integration around APIs, Smart Embed, or events |

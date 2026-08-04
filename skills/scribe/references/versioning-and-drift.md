@@ -20,10 +20,11 @@ Scribe sits under `AI Services`, but related Zoom products may point users towar
 - blog or marketing material that frames Scribe inside broader speech/insights workflows
 
 Keep the guardrail clear:
-- `scribe` = file/storage transcription service
+- `scribe` = Live, Fast, and Batch transcription for audio the application is authorized to process
 - `summarizer` = transcript summarization service
 - `translator` = plain-text translation service
-- `rtms` = live media stream ingestion
+- `rtms` = media and transcript streams sourced from Zoom meetings, webinars, Video SDK sessions,
+  and supported Contact Center engagements
 - Meeting SDK Linux = participant bot capture / raw recording
 
 ## Workflow-Claim Drift
@@ -36,7 +37,8 @@ Some AI Services and Scribe blog material frames Scribe inside broader voice-ins
 - customer-support QA pipelines
 - sentiment or keyword-driven downstream analytics
 
-These are valid architectural use cases, but they do not expand the current documented Scribe endpoint surface.
+These are valid architectural use cases, but they do not expand Scribe beyond its documented Live,
+Fast, and Batch transcription surfaces.
 
 Implementation rule:
 - use `scribe` for transcript generation
@@ -53,6 +55,7 @@ Watch for changes in:
 - webhook signature header conventions
 - response summary/file schemas
 - language / output-format support
+- Live Mode event names, PCM requirements, concurrency tiers, maximum duration, and idle timeout
 
 ## Review Trigger
 
@@ -60,3 +63,4 @@ Re-review this skill when:
 - `api-hub/ai-services/methods/endpoints.json` changes
 - AI Services docs rename Build/API credentials again
 - quickstart sample changes webhook or upload patterns
+- Live Mode docs or the quickstart relay change the WebSocket lifecycle or audio framing contract

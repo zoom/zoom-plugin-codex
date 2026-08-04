@@ -12,6 +12,8 @@ All notable changes to this plugin are documented in this file.
 
 ## Unreleased
 
+- added Zoom AI Services Scribe Live Mode guidance, WebSocket examples, routing, limits, and troubleshooting
+
 ## 1.2.0
 
 - documented the seven official Zoom-hosted MCP server surfaces, endpoints, tools, scope families, and matching Marketplace templates

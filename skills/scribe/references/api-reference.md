@@ -3,12 +3,14 @@
 Canonical sources:
 - OpenAPI JSON: https://developers.zoom.us/api-hub/ai-services/methods/endpoints.json
 - Docs overview: https://developers.zoom.us/docs/ai-services/scribe/
+- Live Mode: https://developers.zoom.us/docs/ai-services/scribe/live-mode/
 - Base URL: `https://api.zoom.us/v2`
 
 ## Endpoint Inventory
 
 | Method | Endpoint | Summary | Operation ID |
 |--------|----------|---------|-------------|
+| WebSocket | `wss://api.zoom.us/v2/aiservices/scribe/live` | Stream PCM16 audio and receive real-time transcription events | Not represented as a REST operation |
 | POST | `/aiservices/scribe/transcribe` | Scribe (Synchronous) | `createFastAsr` |
 | POST | `/aiservices/scribe/jobs` | Submit Batch Scribe Job | `submitBatchAsr` |
 | GET | `/aiservices/scribe/jobs` | List Batch Jobs | `listBatchJobs` |
@@ -16,6 +18,33 @@ Canonical sources:
 | DELETE | `/aiservices/scribe/jobs/{jobId}` | Cancel Batch Job | `cancelBatchJob` |
 | GET | `/aiservices/scribe/jobs/{jobId}/files` | List Batch Job Files | `listBatchJobFiles` |
 | GET | `/aiservices/scribe/jobs/{jobId}/files/{fileId}` | Get Batch Scribe Job File | `getBatchScribeJobFile` |
+
+## Live Mode Contract
+
+Connection requirements:
+- WebSocket subprotocol: `live-asr`
+- header: `Authorization: Bearer <Build-platform JWT>`
+- connect from a trusted backend; browser WebSocket clients cannot set this header
+
+Client messages:
+- `session.update`: JSON text with `language` and `audio.format` set to `pcm16`
+- audio frames: binary little-endian PCM16, 16 kHz, mono, approximately 100 ms per frame
+- `session.close`: JSON text requesting graceful finalization
+
+Server events:
+- `session.created`: includes `session_id`
+- `session.updated`
+- `input_audio_buffer.speech_started`: includes `item_id` and `audio_start_ms`
+- `input_audio_buffer.speech_stopped`: includes `item_id` and `audio_end_ms`
+- `transcription.completed`: includes the transcript, timing, and transcription latency
+- `error`: includes `code`, `message`, and `fatal`
+- `session.closed`: includes `reason`
+
+Documented defaults:
+- maximum session duration: `60 minutes`
+- idle timeout: `30 seconds` without audio
+- concurrent sessions: `20` default, `100` Enterprise, `1,000` Large Contact Center, and
+  `5,000+` custom
 
 ## Request Shapes
 

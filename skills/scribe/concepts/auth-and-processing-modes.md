@@ -35,12 +35,32 @@ Zoom docs currently use inconsistent labels across AI Services pages:
 
 For implementation, treat them as the Build-platform JWT issuer/secret pair used to sign Scribe requests. Verify the exact labels in the current portal UI before shipping.
 
-## Fast Mode vs Batch Mode
+## Live, Fast, and Batch Modes
 
 | Mode | Best for | Transport | Result timing |
 |------|----------|-----------|---------------|
+| Live mode | Voice agents, live captions, app-owned microphone or telephony audio | Secure WebSocket with binary PCM16 | Completed segment after each detected speech turn |
 | Fast mode | One short file, interactive UX | `POST /transcribe` | Immediate synchronous JSON |
 | Batch mode | Archives, long media, many files | `POST /jobs` then status/webhook | Asynchronous |
+
+## Live Mode Session Contract
+
+- endpoint: `wss://api.zoom.us/v2/aiservices/scribe/live`
+- WebSocket subprotocol: `live-asr`
+- authentication: Build-platform JWT in `Authorization: Bearer ...`
+- configuration: send `session.update` with `language` and `audio.format=pcm16`
+- audio: binary little-endian PCM16, 16 kHz, mono, approximately 100 ms per frame
+- control messages: JSON text; never wrap audio in JSON or Base64
+- result: consume `transcription.completed` for final speech-turn transcripts
+- shutdown: send `session.close`, drain final events through `session.closed`, then close
+
+Create the Zoom WebSocket from a trusted backend. Browser WebSocket clients cannot set the
+authorization header, so browser microphone capture requires an authenticated backend relay.
+
+Default documented limits:
+- maximum session duration: `60 minutes`
+- idle timeout: `30 seconds` without audio
+- concurrent sessions per account: `20` default, with higher published tiers
 
 ## Fast Mode Request Shape
 
@@ -60,36 +80,20 @@ Choose fast mode when:
 - user uploads one file
 - latency matters more than throughput
 - file size and duration are manageable
-- you are building pseudo-streaming over short microphone chunks from a browser UI
 
 Choose batch mode when:
 - many files must be processed
 - transcripts can arrive later
 - storage-centric workflows fit better than direct upload
 
-## Browser Microphone Pseudo-Streaming
+Choose Live mode when:
+- the app owns a continuous microphone, voice-agent, or telephony audio stream
+- completed transcripts are needed after each speech turn
+- the backend can maintain a secure WebSocket and PCM16 framing
 
-Scribe is file-oriented, so a browser microphone UX should be modeled as repeated short uploads, not a long-lived stream.
+## Live Mode vs RTMS
 
-Recommended pattern:
-1. capture browser microphone audio with `MediaRecorder`
-2. flush short chunks to your backend
-3. submit each chunk through the async fast-mode wrapper
-4. poll by request ID
-5. append transcript chunks in order
-
-Recommended starting values:
-- chunk size: `5 seconds`
-- acceptable range: `5-10 seconds`
-- concurrent in-flight chunks: `2-3`
-
-Why this works:
-- lowers the chance of frontend `504` on longer synchronous requests
-- gives incremental transcript updates without waiting for one long request
-
-Guardrail:
-- this is pseudo-streaming over file uploads
-- this is not the preferred production design for live audio capture
-- use it only when a lightweight browser demo or rough incremental transcript is acceptable
-- avoid it when you need stable low-latency live transcription, lower overhead, or stronger continuity across utterances
-- for true live media streams, low-latency server ingest, or continuous in-meeting audio, use `rtms`
+Use Scribe Live Mode when the application already has access to audio it is authorized to process.
+Use RTMS when the source is media or transcript data from a Zoom meeting, webinar, Video SDK
+session, or Contact Center engagement. Live Mode is a transcription transport; it does not join a
+meeting or grant access to Zoom session media.

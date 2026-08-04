@@ -29,7 +29,6 @@ Symptoms:
 
 Preferred fix:
 - treat uploaded files and URL-based files as two separate request paths instead of forcing both through one JSON shape
-- exception: a browser microphone demo may intentionally wrap short chunks as JSON `data:` URLs to avoid multipart edge behavior, but treat that as a demo-specific transport choice, not the default upload design
 
 ## 3. Fast mode returns `413 Request Entity Too Large`
 
@@ -105,31 +104,48 @@ Guardrail:
 ## 8. Wrong product chosen
 
 Symptoms:
-- trying to use Scribe for live in-meeting media
+- expecting Scribe Live Mode to acquire Zoom meeting or webinar media
 - trying to use RTMS for offline archive transcription
 
 Guardrail:
-- file/storage transcription -> `scribe`
-- live meeting media -> `rtms`
+- app-owned microphone, voice-agent, or telephony audio -> Scribe Live Mode
+- file/storage transcription -> Scribe Fast or Batch mode
+- Zoom meeting, webinar, Video SDK, or Contact Center media -> `rtms`
 
-## 9. Browser microphone chunk 1 works but later chunks are empty
+## 9. Live Mode WebSocket handshake fails
 
 Likely cause:
-- the browser emitted a valid first container chunk, but later `MediaRecorder` timeslice blobs were partial WebM/Opus clusters without fresh container headers
-
-Symptoms:
-- chunk 1 transcribes normally
-- chunk 2 onward returns empty transcript text or much weaker results
-- auth and request flow still look healthy
+- `401` or `403`: invalid/expired Build JWT or credentials not authorized for Scribe
+- `404`: wrong endpoint or AI Services access/provisioning mismatch
+- `429`: account rate or concurrent-session limit
+- browser attempted to connect directly and could not set the authorization header
 
 Preferred fix:
-- do not rely on one long `MediaRecorder.start(timeslice)` session for standalone chunk uploads
-- rotate the recorder per chunk instead:
-  - start recorder
-  - record one chunk window
-  - stop recorder
-  - upload that blob
-  - start a new recorder for the next chunk
+- connect from a trusted backend to `wss://api.zoom.us/v2/aiservices/scribe/live`
+- include the `live-asr` subprotocol and `Authorization: Bearer <JWT>` header
+- keep credentials and JWTs out of browser code
+- authenticate and rate-limit any browser-to-backend relay
 
-Guardrail:
-- treat browser microphone pseudo-streaming as a file-container problem first, not a Scribe-language-model problem
+## 10. Live Mode connects but returns no transcript
+
+Check:
+- send `session.update` before audio
+- set `audio.format` to `pcm16`
+- send raw binary frames, not JSON or Base64
+- encode little-endian, 16 kHz, mono PCM16
+- target approximately 100 ms per frame: 1,600 samples or 3,200 bytes
+- inspect `input_audio_buffer.speech_started`, `speech_stopped`, and `error` events
+
+## 11. Live Mode closes unexpectedly or loses final text
+
+Likely causes:
+- 30 seconds elapsed without audio
+- the 60-minute maximum session duration was reached
+- the client closed the socket before draining final events
+
+Preferred shutdown:
+1. stop sending audio
+2. send JSON `session.close`
+3. continue reading `transcription.completed` events
+4. wait for `session.closed`
+5. close the WebSocket
