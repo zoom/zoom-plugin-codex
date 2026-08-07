@@ -13,6 +13,7 @@ All notable changes to this plugin are documented in this file.
 ## Unreleased
 
 - added Zoom AI Services Scribe Live Mode guidance, WebSocket examples, routing, limits, and troubleshooting
+- moved the production Marketplace helper MCP connection to `marketplacehelper.asdc.cc`
 
 ## 1.2.0
 

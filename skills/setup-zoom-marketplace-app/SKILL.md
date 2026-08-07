@@ -26,8 +26,8 @@ helper. If it is not configured, tell the user to run:
 
 ```bash
 codex mcp add zoom-marketplace-helper \
-  --url https://d3k9b5xygup21i.cloudfront.net/mcp \
-  --oauth-resource https://d3k9b5xygup21i.cloudfront.net/mcp
+  --url https://marketplacehelper.asdc.cc/mcp \
+  --oauth-resource https://marketplacehelper.asdc.cc/mcp
 
 codex mcp login zoom-marketplace-helper \
   --scopes marketplace:read,marketplace:write,offline_access
