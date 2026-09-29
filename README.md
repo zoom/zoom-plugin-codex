@@ -118,11 +118,11 @@ does not bundle or host that helper.
 The helper is available at the following externally reachable HTTPS endpoint:
 
 ```bash
-codex mcp add zoom-marketplace-helper \
+codex mcp add app-builder-for-agents \
   --url https://marketplacehelper.asdc.cc/mcp \
   --oauth-resource https://marketplacehelper.asdc.cc/mcp
 
-codex mcp login zoom-marketplace-helper \
+codex mcp login app-builder-for-agents \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
 
@@ -148,7 +148,7 @@ cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 Use the user's generated HTTPS origin when configuring their app's home URL, OAuth redirect URL,
 and webhook endpoint. The OAuth redirect URL must point to the user's own callback, for example
 `https://USER_TUNNEL_ORIGIN/oauth/callback`, and must be registered in that user's Zoom app.
-After the tunnel is running, use the configured `zoom-marketplace-helper` MCP server to create
+After the tunnel is running, use the configured `app-builder-for-agents` MCP server to create
 the app with the user's URLs or update the existing app by its `app_id`.
 Register the exact callback paths in Zoom Marketplace, keep the tunnel running while testing,
 and repeat the helper update if the tunnel URL changes. Use a deployed service for production

@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "zoom-marketplace-helper": {
+    "app-builder-for-agents": {
       "type": "http",
       "url": "https://marketplacehelper.asdc.cc/mcp",
       "oauth_resource": "https://marketplacehelper.asdc.cc/mcp",

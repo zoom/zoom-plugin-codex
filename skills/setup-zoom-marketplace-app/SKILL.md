@@ -21,15 +21,15 @@ Use this skill before product implementation when the task needs app-model selec
 ## Programmatic Marketplace Operations
 
 If the user wants Codex to create or validate the Marketplace app directly, check whether the
-separate `zoom-marketplace-helper` MCP server is configured. The plugin does not bundle this
+separate `app-builder-for-agents` MCP server is configured. The plugin does not bundle this
 helper. If it is not configured, tell the user to run:
 
 ```bash
-codex mcp add zoom-marketplace-helper \
+codex mcp add app-builder-for-agents \
   --url https://marketplacehelper.asdc.cc/mcp \
   --oauth-resource https://marketplacehelper.asdc.cc/mcp
 
-codex mcp login zoom-marketplace-helper \
+codex mcp login app-builder-for-agents \
   --scopes marketplace:read,marketplace:write,offline_access
 ```
 
@@ -55,7 +55,7 @@ cloudflared tunnel --url http://localhost:YOUR_LOCAL_PORT
 Use the user's generated HTTPS origin for their app home URL, OAuth redirect URL, and webhook
 endpoint. The OAuth redirect URL must point to the user's own callback, for example
 `https://USER_TUNNEL_ORIGIN/oauth/callback`, and must be registered in that user's Zoom app.
-After the tunnel is running, use the configured `zoom-marketplace-helper` MCP server to create
+After the tunnel is running, use the configured `app-builder-for-agents` MCP server to create
 the app with the user's URLs or update the existing app by its `app_id`. Register exact callback
 paths in Zoom Marketplace, keep the tunnel running during testing, and repeat the helper update
 if the tunnel URL changes. State that a temporary tunnel is for development only, not
